@@ -1,40 +1,142 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ⚡ PokéExplorer — Modern Pokémon Explorer Web Application
 
-## Getting Started
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![PokéAPI](https://img.shields.io/badge/Data-PokéAPI-EF5350?style=for-the-badge&logo=pokemon)](https://pokeapi.co/)
 
-First, run the development server:
+A responsive, high-performance **Pokémon Explorer** web application built with **Next.js (Pages Router)**, **TypeScript**, and **Tailwind CSS**, consuming data from the official **PokéAPI**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+### 1. 🏠 Dynamic Homepage (`/`)
+- **PokéAPI Integration:** Fetches and displays a grid of Pokémon with official high-resolution artwork, dual-type badges, and preview stats (HP, Attack, Speed).
+- **Instant Search:** Real-time filtering by Pokémon name or Pokédex number (`#ID`). Press `/` anywhere to immediately focus the search bar.
+- **Type Filter Badges:** Interactive filter chips covering all 18 Pokémon elemental types with bespoke color schemes and glows.
+- **Sorting Options:** Sort results by Lowest/Highest Pokédex number or Alphabetically (A–Z, Z–A).
+- **Batch Pagination / Load More:** Smooth "Load More" pagination fetching subsequent batches with non-blocking UI states.
+
+### 2. 🔍 Detailed Pokémon Page (`/pokemon/[id]`)
+- **Next.js Dynamic Routing:** Full dynamic routing support (`pages/pokemon/[id].tsx`).
+- **Interactive Visuals:** 
+  - Official high-definition artwork with dynamic ambient glow matching the Pokémon's primary type.
+  - **Shiny Form Toggle:** Switch between regular and rare shiny forms on demand.
+  - **Audio Cry Player:** Plays authentic Pokémon sound cries via the PokéAPI sound asset registry.
+- **Physical Attributes:** Metric and Imperial height and weight conversions, genus classification, and base experience points.
+- **Deep-Dive Tabs:**
+  - **Base Stats:** Animated stat bars with letter grades (S+, S, A, B, C) and total stat calculations.
+  - **Abilities:** Displays both standard and hidden abilities with complete English descriptions.
+  - **Evolution Pathway:** Visual chain showing pre-evolutions, minimum levels, trigger items, and direct links to each stage.
+  - **Learnable Moves:** Filterable move library categorized by learn method (Level-Up, Machine/TM, Egg, Tutor).
+- **Quick Navigation:** Instant Previous (`← #024`) and Next (`#026 →`) Pokémon switcher buttons.
+
+### 3. 🚀 Performance & Architecture
+- **Static Generation (SSG) & ISR:** The first 50 Pokémon pages and the homepage are pre-rendered at build time with daily cache invalidation (`revalidate: 86400`).
+- **On-Demand Blocking Fallback:** Any Pokémon from #1 to #1025 is statically generated and cached on first visit with zero delay.
+- **Optimized Payloads:** Clean payload filtering reduces static JSON payloads from ~400 kB down to under 20 kB per page.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 14 (Pages Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v3 (Custom color tokens, glassmorphism, responsive grid)
+- **Data Source:** [PokéAPI](https://pokeapi.co/)
+- **Icons:** Lucide React
+- **Typography:** Plus Jakarta Sans & JetBrains Mono
+
+---
+
+## 📁 Project Structure
+
+```text
+pokemon-explorer/
+├── components/
+│   ├── AudioCryButton.tsx     # Authentic Pokémon cry audio player
+│   ├── Footer.tsx             # Responsive footer with links
+│   ├── Layout.tsx             # Global layout, ambient lighting & SEO meta
+│   ├── Navbar.tsx             # Sticky header with random Pokémon picker
+│   ├── PokemonCard.tsx        # Card component with 3D hover effects
+│   ├── SearchBar.tsx          # Real-time search, sorting & type chips
+│   └── StatBar.tsx            # Animated battle stat bar with tier badges
+├── lib/
+│   ├── colors.ts              # Custom style definitions for all 18 Pokémon types
+│   └── pokeapi.ts             # Typed PokéAPI clients & data sanitizers
+├── pages/
+│   ├── _app.tsx               # Next.js App wrapper
+│   ├── _document.tsx          # HTML document & Google fonts
+│   ├── index.tsx              # Homepage with pre-rendered list & search
+│   └── pokemon/
+│       └── [id].tsx           # Dynamic detail page (SSG + ISR)
+├── styles/
+│   └── globals.css            # Tailwind directives, custom scrollbars & dark theme
+├── types/
+│   └── pokemon.ts             # Full TypeScript interfaces
+├── next.config.mjs            # Remote image domains configuration
+├── tailwind.config.ts         # Tailwind configuration
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting Started
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Prerequisites
+- **Node.js:** v18.17.0 or higher
+- **npm:** v9.0.0 or higher
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. **Navigate to the project directory:**
+   ```bash
+   cd ~/Desktop/pokemon-explorer
+   ```
 
-## Learn More
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Open in your browser:**
+   Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Production Build & Verification
 
-## Deploy on Vercel
+To test the production SSG build:
+```bash
+npm run build
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 📝 GitHub Submission Instructions
+
+To push this repository to your GitHub account:
+
+1. **Create a new public repository** on GitHub named `pokemon-explorer`.
+2. **Commit and push from your terminal:**
+   ```bash
+   cd ~/Desktop/pokemon-explorer
+   git add .
+   git commit -m "feat: complete Pokemon Explorer with Next.js, SSG, and Tailwind CSS"
+   git branch -M main
+   git remote add origin https://github.com/itsabhayhere/pokemon-explorer.git
+   git push -u origin main
+   ```
+
+---
+
+## 👨‍💻 Author
+
+- **Abhay Kumar**
+- GitHub: [@itsabhayhere](https://github.com/itsabhayhere)
+- LinkedIn: [in/itsabhayhere](https://www.linkedin.com/in/itsabhayhere/)

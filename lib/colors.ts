@@ -1,0 +1,202 @@
+export interface TypeStyle {
+  bg: string;
+  border: string;
+  badge: string;
+  gradient: string;
+  glow: string;
+  text: string;
+  lightBg: string;
+}
+
+export const POKEMON_TYPE_STYLES: Record<string, TypeStyle> = {
+  normal: {
+    bg: 'bg-stone-500',
+    border: 'border-stone-400',
+    badge: 'bg-stone-500/20 text-stone-300 border-stone-400/40',
+    gradient: 'from-stone-600 to-stone-800',
+    glow: 'rgba(168, 162, 158, 0.4)',
+    text: 'text-stone-300',
+    lightBg: 'bg-stone-900/50',
+  },
+  fire: {
+    bg: 'bg-orange-500',
+    border: 'border-orange-400',
+    badge: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+    gradient: 'from-amber-500 via-orange-600 to-red-600',
+    glow: 'rgba(249, 115, 22, 0.4)',
+    text: 'text-orange-400',
+    lightBg: 'bg-orange-950/40',
+  },
+  water: {
+    bg: 'bg-blue-500',
+    border: 'border-blue-400',
+    badge: 'bg-blue-500/20 text-blue-300 border-blue-400/40',
+    gradient: 'from-cyan-500 via-blue-600 to-indigo-600',
+    glow: 'rgba(59, 130, 246, 0.4)',
+    text: 'text-blue-400',
+    lightBg: 'bg-blue-950/40',
+  },
+  grass: {
+    bg: 'bg-emerald-500',
+    border: 'border-emerald-400',
+    badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+    gradient: 'from-emerald-500 via-green-600 to-teal-700',
+    glow: 'rgba(16, 185, 129, 0.4)',
+    text: 'text-emerald-400',
+    lightBg: 'bg-emerald-950/40',
+  },
+  electric: {
+    bg: 'bg-amber-400',
+    border: 'border-amber-300',
+    badge: 'bg-amber-400/20 text-amber-300 border-amber-300/40',
+    gradient: 'from-yellow-400 via-amber-500 to-orange-500',
+    glow: 'rgba(251, 191, 36, 0.4)',
+    text: 'text-amber-300',
+    lightBg: 'bg-amber-950/40',
+  },
+  ice: {
+    bg: 'bg-cyan-400',
+    border: 'border-cyan-300',
+    badge: 'bg-cyan-400/20 text-cyan-200 border-cyan-300/40',
+    gradient: 'from-cyan-400 via-sky-500 to-blue-600',
+    glow: 'rgba(34, 211, 238, 0.4)',
+    text: 'text-cyan-300',
+    lightBg: 'bg-cyan-950/40',
+  },
+  fighting: {
+    bg: 'bg-rose-700',
+    border: 'border-rose-500',
+    badge: 'bg-rose-600/20 text-rose-300 border-rose-400/40',
+    gradient: 'from-rose-600 via-red-700 to-amber-800',
+    glow: 'rgba(225, 29, 72, 0.4)',
+    text: 'text-rose-400',
+    lightBg: 'bg-rose-950/40',
+  },
+  poison: {
+    bg: 'bg-purple-600',
+    border: 'border-purple-400',
+    badge: 'bg-purple-600/20 text-purple-300 border-purple-400/40',
+    gradient: 'from-purple-500 via-fuchsia-600 to-pink-700',
+    glow: 'rgba(168, 85, 247, 0.4)',
+    text: 'text-purple-400',
+    lightBg: 'bg-purple-950/40',
+  },
+  ground: {
+    bg: 'bg-amber-700',
+    border: 'border-amber-600',
+    badge: 'bg-amber-700/20 text-amber-200 border-amber-600/40',
+    gradient: 'from-yellow-700 via-amber-800 to-stone-900',
+    glow: 'rgba(180, 83, 9, 0.4)',
+    text: 'text-amber-400',
+    lightBg: 'bg-amber-950/50',
+  },
+  flying: {
+    bg: 'bg-indigo-400',
+    border: 'border-indigo-300',
+    badge: 'bg-indigo-400/20 text-indigo-200 border-indigo-300/40',
+    gradient: 'from-indigo-400 via-sky-500 to-blue-600',
+    glow: 'rgba(129, 140, 248, 0.4)',
+    text: 'text-indigo-300',
+    lightBg: 'bg-indigo-950/40',
+  },
+  psychic: {
+    bg: 'bg-pink-500',
+    border: 'border-pink-400',
+    badge: 'bg-pink-500/20 text-pink-300 border-pink-400/40',
+    gradient: 'from-pink-500 via-rose-500 to-purple-600',
+    glow: 'rgba(236, 72, 153, 0.4)',
+    text: 'text-pink-400',
+    lightBg: 'bg-pink-950/40',
+  },
+  bug: {
+    bg: 'bg-lime-500',
+    border: 'border-lime-400',
+    badge: 'bg-lime-500/20 text-lime-300 border-lime-400/40',
+    gradient: 'from-lime-500 via-emerald-600 to-teal-700',
+    glow: 'rgba(132, 204, 22, 0.4)',
+    text: 'text-lime-400',
+    lightBg: 'bg-lime-950/40',
+  },
+  rock: {
+    bg: 'bg-yellow-700',
+    border: 'border-yellow-600',
+    badge: 'bg-yellow-700/20 text-yellow-200 border-yellow-600/40',
+    gradient: 'from-stone-600 via-yellow-800 to-stone-900',
+    glow: 'rgba(161, 98, 7, 0.4)',
+    text: 'text-yellow-400',
+    lightBg: 'bg-yellow-950/40',
+  },
+  ghost: {
+    bg: 'bg-violet-700',
+    border: 'border-violet-500',
+    badge: 'bg-violet-700/20 text-violet-200 border-violet-500/40',
+    gradient: 'from-violet-700 via-purple-900 to-slate-950',
+    glow: 'rgba(109, 40, 217, 0.4)',
+    text: 'text-violet-400',
+    lightBg: 'bg-violet-950/50',
+  },
+  dragon: {
+    bg: 'bg-indigo-700',
+    border: 'border-indigo-500',
+    badge: 'bg-indigo-700/20 text-indigo-200 border-indigo-500/40',
+    gradient: 'from-indigo-600 via-purple-700 to-pink-700',
+    glow: 'rgba(79, 70, 229, 0.4)',
+    text: 'text-indigo-400',
+    lightBg: 'bg-indigo-950/50',
+  },
+  steel: {
+    bg: 'bg-slate-500',
+    border: 'border-slate-400',
+    badge: 'bg-slate-500/20 text-slate-300 border-slate-400/40',
+    gradient: 'from-slate-500 via-zinc-600 to-slate-800',
+    glow: 'rgba(148, 163, 184, 0.4)',
+    text: 'text-slate-300',
+    lightBg: 'bg-slate-950/40',
+  },
+  fairy: {
+    bg: 'bg-pink-400',
+    border: 'border-pink-300',
+    badge: 'bg-pink-400/20 text-pink-200 border-pink-300/40',
+    gradient: 'from-pink-400 via-rose-400 to-fuchsia-500',
+    glow: 'rgba(244, 114, 182, 0.4)',
+    text: 'text-pink-300',
+    lightBg: 'bg-pink-950/40',
+  },
+  dark: {
+    bg: 'bg-zinc-800',
+    border: 'border-zinc-600',
+    badge: 'bg-zinc-800/40 text-zinc-300 border-zinc-600/40',
+    gradient: 'from-zinc-800 via-neutral-900 to-black',
+    glow: 'rgba(39, 39, 42, 0.5)',
+    text: 'text-zinc-400',
+    lightBg: 'bg-zinc-950/60',
+  },
+};
+
+export const getTypeStyle = (type?: string): TypeStyle => {
+  if (!type) return POKEMON_TYPE_STYLES.normal;
+  const lower = type.toLowerCase();
+  return POKEMON_TYPE_STYLES[lower] || POKEMON_TYPE_STYLES.normal;
+};
+
+export const ALL_POKEMON_TYPES = [
+  'all',
+  'normal',
+  'fire',
+  'water',
+  'grass',
+  'electric',
+  'ice',
+  'fighting',
+  'poison',
+  'ground',
+  'flying',
+  'psychic',
+  'bug',
+  'rock',
+  'ghost',
+  'dragon',
+  'steel',
+  'fairy',
+  'dark',
+];
