@@ -55,7 +55,7 @@ export default function PokemonDetailPage({
       <Layout title="Loading Pokémon...">
         <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
           <div className="w-16 h-16 rounded-full border-4 border-amber-400 border-t-transparent animate-spin" />
-          <p className="text-slate-400 text-sm font-medium">Fetching Pokémon data from PokéAPI...</p>
+          <p className="text-slate-400 text-sm font-medium">Loading Pokémon data...</p>
         </div>
       </Layout>
     );
@@ -66,10 +66,10 @@ export default function PokemonDetailPage({
       <Layout title="Pokémon Not Found">
         <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4 text-center px-4">
           <h2 className="text-2xl font-bold text-white">Pokémon Not Found</h2>
-          <p className="text-slate-400 text-sm">We couldn&apos;t retrieve information for this Pokémon.</p>
+          <p className="text-slate-400 text-sm">Could not find Pokémon data for this ID or name.</p>
           <Link
             href="/"
-            className="px-4 py-2 rounded-lg bg-amber-400 text-slate-950 font-semibold text-xs hover:bg-amber-300"
+            className="px-4 py-2 rounded-lg bg-amber-400 text-slate-950 font-semibold text-xs hover:bg-amber-300 transition-colors"
           >
             Back to Pokédex
           </Link>
@@ -81,18 +81,13 @@ export default function PokemonDetailPage({
   const primaryType = pokemon.types[0]?.type.name || 'normal';
   const typeStyle = getTypeStyle(primaryType);
 
-  // Flavor text in English
   const flavorText =
     species?.flavor_text_entries?.find((entry) => entry.language.name === 'en')?.flavor_text.replace(/[\n\f]/g, ' ') ||
-    'A fascinating Pokémon found across various regions.';
+    '';
 
-  // Genus (e.g. "Seed Pokémon")
   const genus = species?.genera?.find((g) => g.language.name === 'en')?.genus || 'Pokémon';
-
-  // Stats calculation
   const totalBaseStats = pokemon.stats.reduce((acc, curr) => acc + curr.base_stat, 0);
 
-  // Artwork selection (regular vs shiny)
   const artwork = isShiny
     ? pokemon.sprites.other?.['official-artwork']?.front_shiny ||
       pokemon.sprites.front_shiny ||
@@ -101,7 +96,6 @@ export default function PokemonDetailPage({
       pokemon.sprites.front_default ||
       getArtworkUrl(pokemon.id);
 
-  // Moves list with filter
   const filteredMoves = pokemon.moves.filter((m) => {
     if (moveFilter === 'all') return true;
     return m.version_group_details.some(
@@ -111,11 +105,10 @@ export default function PokemonDetailPage({
 
   return (
     <Layout
-      title={`${formatPokemonName(pokemon.name)} ${formatPokemonId(pokemon.id)} — PokéExplorer`}
-      description={`View base stats, abilities, moves, and evolutions for ${formatPokemonName(pokemon.name)}.`}
+      title={`${formatPokemonName(pokemon.name)} (${formatPokemonId(pokemon.id)}) — PokéExplorer`}
+      description={`Base stats, abilities, moves, and evolutions for ${formatPokemonName(pokemon.name)}.`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Top Navigation Row: Back button & Prev/Next Quick Navigation */}
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
@@ -150,16 +143,13 @@ export default function PokemonDetailPage({
           </div>
         </div>
 
-        {/* Hero Card Container */}
         <div className="relative rounded-3xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-xl p-6 sm:p-10 overflow-hidden shadow-2xl">
-          {/* Ambient Lighting based on Pokémon Type */}
           <div
             className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[120px] opacity-25 pointer-events-none"
             style={{ backgroundColor: typeStyle.glow }}
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Image, Badges, Shiny Toggle */}
             <div className="lg:col-span-5 flex flex-col items-center text-center space-y-4">
               <div className="relative w-64 h-64 sm:w-72 sm:h-72 drop-shadow-[0_20px_25px_rgba(0,0,0,0.6)]">
                 <Image
@@ -173,7 +163,6 @@ export default function PokemonDetailPage({
                 />
               </div>
 
-              {/* Action Buttons: Shiny & Audio Cry */}
               <div className="flex items-center gap-3 pt-2">
                 <button
                   onClick={() => setIsShiny((prev) => !prev)}
@@ -182,10 +171,10 @@ export default function PokemonDetailPage({
                       ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md shadow-amber-400/20'
                       : 'bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white'
                   }`}
-                  title="Toggle Shiny artwork"
+                  title="Toggle shiny form"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>{isShiny ? 'Shiny Form' : 'Regular'}</span>
+                  <span>{isShiny ? 'Shiny' : 'Normal'}</span>
                 </button>
 
                 <AudioCryButton
@@ -195,7 +184,6 @@ export default function PokemonDetailPage({
               </div>
             </div>
 
-            {/* Right Column: Key Details, Types, Physical Stats */}
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <div className="flex items-center justify-between">
@@ -211,7 +199,6 @@ export default function PokemonDetailPage({
                   {formatPokemonName(pokemon.name)}
                 </h1>
 
-                {/* Type Badges */}
                 <div className="flex flex-wrap gap-2 mt-3">
                   {pokemon.types.map((item) => {
                     const badge = getTypeStyle(item.type.name);
@@ -227,12 +214,12 @@ export default function PokemonDetailPage({
                 </div>
               </div>
 
-              {/* Flavor Text Description */}
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed italic border-l-2 border-slate-700 pl-4 py-1">
-                &ldquo;{flavorText}&rdquo;
-              </p>
+              {flavorText && (
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed italic border-l-2 border-slate-700 pl-4 py-1">
+                  &ldquo;{flavorText}&rdquo;
+                </p>
+              )}
 
-              {/* Physical Attributes Grid */}
               <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-2">
                 <div className="p-3 sm:p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-1">
                   <div className="flex items-center gap-1.5 text-xs text-slate-400">
@@ -266,16 +253,15 @@ export default function PokemonDetailPage({
                     <span>Base Exp</span>
                   </div>
                   <div className="text-base sm:text-lg font-bold text-white">
-                    {pokemon.base_experience || 'N/A'}
+                    {pokemon.base_experience || '—'}
                   </div>
-                  <div className="text-[10px] text-slate-400">Points</div>
+                  <div className="text-[10px] text-slate-400">EXP</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Interactive Tabs Section: Stats, Abilities, Evolution, Moves */}
         <div className="space-y-6">
           <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
             <button
@@ -327,19 +313,18 @@ export default function PokemonDetailPage({
             </button>
           </div>
 
-          {/* TAB 1: BASE STATS */}
           {activeTab === 'stats' && (
             <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-white">Battle Base Statistics</h3>
+                  <h3 className="text-lg font-bold text-white">Base Stats</h3>
                   <p className="text-xs text-slate-400">
-                    Individual stat values compared against the maximum Pokémon benchmark (255).
+                    Stats out of 255 max benchmark.
                   </p>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] text-slate-400 uppercase tracking-widest block font-bold">
-                    Stat Total
+                    Total
                   </span>
                   <span className="text-2xl font-black text-amber-400">{totalBaseStats}</span>
                 </div>
@@ -358,7 +343,6 @@ export default function PokemonDetailPage({
             </div>
           )}
 
-          {/* TAB 2: ABILITIES */}
           {activeTab === 'abilities' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {pokemon.abilities.map((item) => (
@@ -372,7 +356,7 @@ export default function PokemonDetailPage({
                     </h4>
                     {item.is_hidden ? (
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase tracking-wider">
-                        Hidden Ability
+                        Hidden
                       </span>
                     ) : (
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 uppercase tracking-wider">
@@ -381,20 +365,19 @@ export default function PokemonDetailPage({
                     )}
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    {item.short_effect || 'Passive ability utilized during competitive Pokémon encounters.'}
+                    {item.short_effect || 'No detailed description available.'}
                   </p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* TAB 3: EVOLUTION CHAIN */}
           {activeTab === 'evolution' && (
             <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl space-y-6">
               <div>
-                <h3 className="text-lg font-bold text-white">Evolution Pathway</h3>
+                <h3 className="text-lg font-bold text-white">Evolution Line</h3>
                 <p className="text-xs text-slate-400">
-                  Evolutionary stages and trigger conditions for this species line.
+                  Evolutionary stages and trigger conditions.
                 </p>
               </div>
 
@@ -451,23 +434,21 @@ export default function PokemonDetailPage({
                   })}
                 </div>
               ) : (
-                <p className="text-xs text-slate-400">Evolution details currently unavailable.</p>
+                <p className="text-xs text-slate-400">No evolution data available for this Pokémon.</p>
               )}
             </div>
           )}
 
-          {/* TAB 4: MOVES */}
           {activeTab === 'moves' && (
             <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white">Learnable Moves</h3>
+                  <h3 className="text-lg font-bold text-white">Moves</h3>
                   <p className="text-xs text-slate-400">
-                    Showing {filteredMoves.length} moves learnable by {formatPokemonName(pokemon.name)}.
+                    {filteredMoves.length} moves available
                   </p>
                 </div>
 
-                {/* Filter buttons */}
                 <div className="flex items-center gap-1.5 text-xs bg-slate-800/80 p-1 rounded-xl border border-slate-700">
                   {['all', 'level-up', 'machine', 'egg', 'tutor'].map((filter) => (
                     <button
@@ -514,9 +495,9 @@ export default function PokemonDetailPage({
   );
 }
 
-// SSG: Pre-generate first 48 Pokémon paths, on-demand fallback for the rest!
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
+    // Only pre-generate the first 48 to balance build time with API rate limits
     const paths = Array.from({ length: 48 }, (_, i) => ({
       params: { id: (i + 1).toString() },
     }));
@@ -544,13 +525,11 @@ export const getStaticProps: GetStaticProps<PokemonDetailPageProps> = async ({ p
 
     const species = await getPokemonSpecies(pokemon.id);
 
-    // Fetch evolution chain if available
     let evolutionStages: EvolutionStage[] = [];
     if (species?.evolution_chain?.url) {
       evolutionStages = await getEvolutionChain(species.evolution_chain.url);
     }
 
-    // Previous and Next Pokemon metadata
     const prevId = pokemon.id > 1 ? pokemon.id - 1 : null;
     const nextId = pokemon.id < 1025 ? pokemon.id + 1 : null;
 
@@ -564,22 +543,18 @@ export const getStaticProps: GetStaticProps<PokemonDetailPageProps> = async ({ p
       nextPokemon = { id: nextId, name: `Pokemon #${nextId}` };
     }
 
-    const sanitizedProps = JSON.parse(
-      JSON.stringify({
+    return {
+      props: {
         pokemon,
         species,
         evolutionStages,
         prevPokemon,
         nextPokemon,
-      })
-    );
-
-    return {
-      props: sanitizedProps,
+      },
       revalidate: 86400,
     };
   } catch (error) {
-    console.error('Error in getStaticProps for pokemon:', error);
+    console.error('Error fetching pokemon detail:', error);
     return { notFound: true };
   }
 };

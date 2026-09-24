@@ -15,7 +15,6 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/80 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-9 h-9 rounded-full bg-gradient-to-b from-rose-500 via-rose-600 to-white flex items-center justify-center p-0.5 shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
               <div className="w-full h-full rounded-full border border-slate-900 flex items-center justify-center relative overflow-hidden bg-slate-900">
@@ -30,13 +29,9 @@ export default function Navbar() {
               <span className="text-lg font-black tracking-tight bg-gradient-to-r from-amber-400 via-rose-400 to-purple-400 bg-clip-text text-transparent">
                 PokéExplorer
               </span>
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest -mt-1">
-                Next.js • PokéAPI
-              </span>
             </div>
           </Link>
 
-          {/* Quick Actions */}
           <div className="flex items-center gap-3">
             <button
               onClick={handleRandomPokemon}
@@ -44,7 +39,7 @@ export default function Navbar() {
               title="Navigate to a random Pokémon"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Surprise Me!</span>
+              <span>Random</span>
             </button>
 
             <Link
@@ -63,7 +58,7 @@ export default function Navbar() {
               className="hidden md:inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-200 transition-colors"
             >
               <Dna className="w-3.5 h-3.5" />
-              <span>API Docs</span>
+              <span>API</span>
             </a>
 
             <a

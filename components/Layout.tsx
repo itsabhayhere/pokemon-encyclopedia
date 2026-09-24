@@ -11,8 +11,8 @@ interface LayoutProps {
 
 export default function Layout({
   children,
-  title = 'PokéExplorer — Discover Every Pokémon',
-  description = 'A modern, responsive Pokémon Explorer web application built with Next.js and PokéAPI. Search, filter, and inspect stats, abilities, and evolutions.',
+  title = 'PokéExplorer',
+  description = 'Pokédex web application with battle stats, evolutions, and move data.',
 }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-amber-400 selection:text-slate-950">
@@ -23,7 +23,6 @@ export default function Layout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* Subtle Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-rose-600/10 blur-[130px]" />
         <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-600/10 blur-[140px]" />

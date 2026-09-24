@@ -22,16 +22,13 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
   const [isSearchingApi, setIsSearchingApi] = useState(false);
   const [directApiResult, setDirectApiResult] = useState<PokemonListItem | null>(null);
 
-  // Filter and sort the loaded Pokémon
   const filteredPokemon = useMemo(() => {
     let list = [...pokemonList];
 
-    // If direct search returned a pokemon not yet in current batch
     if (directApiResult && !list.some((p) => p.id === directApiResult.id)) {
       list = [directApiResult, ...list];
     }
 
-    // Filter by search term
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase().trim();
       list = list.filter(
@@ -41,14 +38,12 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
       );
     }
 
-    // Filter by type
     if (selectedType !== 'all') {
       list = list.filter((p) =>
         p.types.map((t) => t.toLowerCase()).includes(selectedType.toLowerCase())
       );
     }
 
-    // Sort
     list.sort((a, b) => {
       if (sortBy === 'id-asc') return a.id - b.id;
       if (sortBy === 'id-desc') return b.id - a.id;
@@ -60,7 +55,6 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
     return list;
   }, [pokemonList, searchTerm, selectedType, sortBy, directApiResult]);
 
-  // Handle Load More
   const handleLoadMore = async () => {
     if (isLoadingMore) return;
     setIsLoadingMore(true);
@@ -92,7 +86,7 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
               };
             }
           } catch {
-            // fallback
+            // fallback gracefully to base artwork if detail endpoint fails
           }
           return {
             id,
@@ -113,7 +107,6 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
     }
   };
 
-  // If user searches for a specific Pokemon not in the first 48, fetch from API directly
   const handleDirectSearch = async (term: string) => {
     setSearchTerm(term);
     const cleaned = term.trim().toLowerCase().replace('#', '');
@@ -122,13 +115,11 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
       return;
     }
 
-    // Check if already in list
     const exists = pokemonList.some(
       (p) => p.name.toLowerCase() === cleaned || p.id.toString() === cleaned
     );
     if (exists) return;
 
-    // Search via PokeAPI directly
     try {
       setIsSearchingApi(true);
       const detail = await getPokemonDetail(cleaned);
@@ -148,7 +139,7 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
         });
       }
     } catch {
-      // not found
+      // no-op if query doesn't match an exact pokemon
     } finally {
       setIsSearchingApi(false);
     }
@@ -156,26 +147,24 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
 
   return (
     <Layout
-      title="PokéExplorer — Discover Every Pokémon"
-      description="Explore the world of Pokémon with real-time search, stats, abilities, and evolutions powered by Next.js and PokéAPI."
+      title="PokéExplorer — Pokémon Database"
+      description="Browse battle stats, evolutions, abilities, and moves for Pokémon across all generations."
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
-        {/* Hero Section */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 border border-amber-400/30 text-amber-300">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Pokédex • Powered by PokéAPI</span>
+            <span>National Pokédex</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white">
-            Gotta Explore &apos;Em All
+            PokéExplorer
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300">
-            Search across all Pokémon, inspect deep battle stats, explore evolution trees, and uncover hidden abilities with zero latency.
+            Browse battle stats, evolution lines, abilities, and learnable moves across all generations.
           </p>
 
-          {/* Quick Metrics Bar */}
           <div className="pt-2 flex items-center justify-center gap-6 sm:gap-10 text-xs text-slate-400">
             <div className="flex items-center gap-1.5">
               <Compass className="w-4 h-4 text-rose-400" />
@@ -192,7 +181,6 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
           </div>
         </div>
 
-        {/* Search & Filter Bar */}
         <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-xl relative">
           {isSearchingApi && (
             <div className="absolute top-2 right-4 flex items-center gap-1 text-[11px] text-amber-400 animate-pulse">
@@ -211,7 +199,6 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
           />
         </div>
 
-        {/* Pokemon Grid */}
         {filteredPokemon.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredPokemon.map((pokemon) => (
@@ -225,7 +212,7 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
             </div>
             <h3 className="text-lg font-bold text-white">No Pokémon found</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              We couldn&apos;t find any Pokémon matching your search or filters. Try adjusting your query or resetting filters.
+              Couldn&apos;t find any Pokémon matching your search or filters. Try adjusting your query or resetting filters.
             </p>
             <button
               onClick={() => {
@@ -235,12 +222,11 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
               }}
               className="mt-2 px-4 py-2 text-xs font-semibold rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg"
             >
-              Clear Search &amp; Filters
+              Clear filters
             </button>
           </div>
         )}
 
-        {/* Load More Button */}
         {selectedType === 'all' && !searchTerm && offset < totalCount && (
           <div className="text-center pt-8">
             <button
@@ -251,7 +237,7 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
               {isLoadingMore ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
-                  <span>Summoning more Pokémon...</span>
+                  <span>Loading Pokémon...</span>
                 </>
               ) : (
                 <>
@@ -267,7 +253,6 @@ export default function HomePage({ initialPokemon, totalCount }: HomePageProps) 
   );
 }
 
-// SSG: Pre-render first 48 Pokemon at build time for optimal performance
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   try {
     const data = await getPokemonList(48, 0);
@@ -276,7 +261,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
         initialPokemon: data.results,
         totalCount: data.count,
       },
-      revalidate: 86400, // Revalidate daily
+      revalidate: 86400,
     };
   } catch (error) {
     console.error('Failed to pre-fetch pokemon:', error);

@@ -23,7 +23,6 @@ export default function SearchBar({
 }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Keyboard shortcut: Pressing "/" focuses search input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === '/' && document.activeElement !== inputRef.current) {
@@ -37,9 +36,7 @@ export default function SearchBar({
 
   return (
     <div className="w-full space-y-4">
-      {/* Search Input & Sort Controls */}
       <div className="flex flex-col sm:flex-row items-center gap-3">
-        {/* Search Input Box */}
         <div className="relative w-full flex-1">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <Search className="w-5 h-5" />
@@ -50,7 +47,7 @@ export default function SearchBar({
             type="text"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search Pokémon by name or #ID (e.g. Pikachu, Charizard, 25)..."
+            placeholder="Search by name or number (e.g. Pikachu, 25)..."
             className="w-full pl-11 pr-20 py-3 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all shadow-inner"
           />
 
@@ -71,7 +68,6 @@ export default function SearchBar({
           </div>
         </div>
 
-        {/* Sort Selector Dropdown */}
         <div className="w-full sm:w-auto flex items-center gap-2">
           <div className="relative flex-1 sm:flex-none">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -91,11 +87,10 @@ export default function SearchBar({
         </div>
       </div>
 
-      {/* Type Filter Chips (Horizontal Scrollable) */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1 shrink-0 mr-1">
           <SlidersHorizontal className="w-3 h-3" />
-          Filter:
+          Type:
         </span>
 
         {ALL_POKEMON_TYPES.map((type) => {
@@ -118,7 +113,6 @@ export default function SearchBar({
         })}
       </div>
 
-      {/* Results Count Banner */}
       <div className="flex items-center justify-between text-xs text-slate-400 px-1">
         <span>
           Showing <strong className="text-white font-semibold">{totalResults}</strong> Pokémon
@@ -144,7 +138,7 @@ export default function SearchBar({
             }}
             className="text-amber-400 hover:text-amber-300 hover:underline font-medium"
           >
-            Reset Filters
+            Reset
           </button>
         )}
       </div>

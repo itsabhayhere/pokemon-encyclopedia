@@ -56,7 +56,7 @@ export async function getPokemonList(limit: number = 48, offset: number = 0): Pr
             };
           }
         } catch {
-          // Fallback if individual detail fetch fails
+          // use artwork fallback if individual request fails
         }
         return {
           id,
@@ -100,8 +100,7 @@ export async function getPokemonDetail(idOrName: string | number): Promise<Pokem
     if (!res.ok) return null;
     const data = await res.json();
 
-    // Fetch ability descriptions for richer UX
-    const enrichedAbilities = await Promise.all(
+    const abilities = await Promise.all(
       data.abilities.map(async (item: any) => {
         try {
           const abRes = await fetch(item.ability.url);
@@ -122,7 +121,7 @@ export async function getPokemonDetail(idOrName: string | number): Promise<Pokem
             };
           }
         } catch {
-          // ignore error
+          // ignore ability fetch failure
         }
         return {
           is_hidden: item.is_hidden,
@@ -135,8 +134,8 @@ export async function getPokemonDetail(idOrName: string | number): Promise<Pokem
       })
     );
 
-    // Slim down moves array so Next.js static JSON payload stays under 30 kB
-    const slimMoves = data.moves.map((m: any) => {
+    // Keep only the most recent version details for each move to prevent oversized props
+    const moves = data.moves.map((m: any) => {
       const latestVersion = m.version_group_details[m.version_group_details.length - 1];
       return {
         move: {
@@ -170,8 +169,8 @@ export async function getPokemonDetail(idOrName: string | number): Promise<Pokem
         effort: s.effort,
         stat: { name: s.stat.name, url: s.stat.url },
       })),
-      abilities: enrichedAbilities,
-      moves: slimMoves,
+      abilities,
+      moves,
       sprites: {
         front_default: data.sprites.front_default || getArtworkUrl(data.id),
         front_shiny: data.sprites.front_shiny || null,
